@@ -1,0 +1,338 @@
+{
+  "config": {
+    "version": "1.2",
+    "last_updated": "2026-04-18",
+    "description": "Testate monitorate per Tech & Auto Daily Digest",
+    "target_email": "miltagimt@gmail.com",
+    "send_time": "07:00",
+    "timezone": "Europe/Rome",
+    "news_count": {"min": 13, "max": 15},
+    "min_score": 6,
+    "italian_quota": "50%"
+  },
+
+  "areas": [
+    "Automotive News",
+    "EV & Mobilità Elettrica",
+    "AI & Machine Learning",
+    "Guida Autonoma & ADAS",
+    "Tecnica Automotive",
+    "Startup & Venture Capital Tech",
+    "Auto di Lusso & Supercar"
+  ],
+
+  "area_weights": {
+    "Automotive News": "22%",
+    "EV & Mobilità Elettrica": "18%",
+    "AI & Machine Learning": "18%",
+    "Guida Autonoma & ADAS": "15%",
+    "Tecnica Automotive": "15%",
+    "Startup & Venture Capital Tech": "7%",
+    "Auto di Lusso & Supercar": "5%"
+  },
+
+  "sources": {
+
+    "internazionali": [
+      {
+        "name": "TechCrunch",
+        "url": "https://techcrunch.com",
+        "rss": "https://techcrunch.com/feed/",
+        "area": ["AI & Machine Learning", "Startup & Venture Capital Tech"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "The Verge",
+        "url": "https://www.theverge.com",
+        "rss": "https://www.theverge.com/rss/index.xml",
+        "area": ["AI & Machine Learning"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Wired",
+        "url": "https://www.wired.com",
+        "rss": "https://www.wired.com/feed/rss",
+        "area": ["AI & Machine Learning", "Startup & Venture Capital Tech"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "MIT Technology Review",
+        "url": "https://www.technologyreview.com",
+        "rss": "https://www.technologyreview.com/feed/",
+        "area": ["AI & Machine Learning", "Guida Autonoma & ADAS"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "VentureBeat",
+        "url": "https://venturebeat.com",
+        "rss": "https://venturebeat.com/feed/",
+        "area": ["AI & Machine Learning", "Startup & Venture Capital Tech"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Electrek",
+        "url": "https://electrek.co",
+        "rss": "https://electrek.co/feed/",
+        "area": ["EV & Mobilità Elettrica"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "InsideEVs",
+        "url": "https://insideevs.com",
+        "rss": "https://insideevs.com/rss/articles/",
+        "area": ["EV & Mobilità Elettrica"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "The Drive",
+        "url": "https://www.thedrive.com",
+        "rss": "https://www.thedrive.com/feed",
+        "area": ["Tecnica Automotive", "Guida Autonoma & ADAS"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Car and Driver",
+        "url": "https://www.caranddriver.com",
+        "rss": "https://www.caranddriver.com/rss/all.xml",
+        "area": ["Automotive News", "EV & Mobilità Elettrica"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Autocar",
+        "url": "https://www.autocar.co.uk",
+        "rss": "https://www.autocar.co.uk/rss",
+        "area": ["Automotive News", "Tecnica Automotive"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Automotive News Europe",
+        "url": "https://europe.autonews.com",
+        "rss": "https://europe.autonews.com/rss.xml",
+        "area": ["Automotive News"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Just Auto",
+        "url": "https://www.just-auto.com",
+        "rss": "https://www.just-auto.com/feed/",
+        "area": ["Automotive News", "Tecnica Automotive"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Ward's Auto",
+        "url": "https://www.wardsauto.com",
+        "rss": "https://www.wardsauto.com/rss.xml",
+        "area": ["Automotive News", "Tecnica Automotive"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Bloomberg Technology",
+        "url": "https://www.bloomberg.com/technology",
+        "rss": "https://feeds.bloomberg.com/technology/news.rss",
+        "area": ["Startup & Venture Capital Tech", "AI & Machine Learning"],
+        "lingua": "EN",
+        "livello": "top"
+      },
+      {
+        "name": "Crunchbase News",
+        "url": "https://news.crunchbase.com",
+        "rss": "https://news.crunchbase.com/feed/",
+        "area": ["Startup & Venture Capital Tech"],
+        "lingua": "EN",
+        "livello": "top"
+      }
+    ],
+
+    "italiane": [
+      {
+        "name": "Quattroruote",
+        "url": "https://www.quattroruote.it",
+        "rss": "https://www.quattroruote.it/rss",
+        "area": ["Automotive News", "Tecnica Automotive", "EV & Mobilità Elettrica"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "AlVolante",
+        "url": "https://www.alvolante.it",
+        "rss": "https://www.alvolante.it/rss",
+        "area": ["Automotive News", "Tecnica Automotive"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Autotecnica",
+        "url": "https://www.autotecnica.it",
+        "rss": "https://www.autotecnica.it/feed/",
+        "area": ["Tecnica Automotive", "Guida Autonoma & ADAS"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Motor1 Italia",
+        "url": "https://it.motor1.com",
+        "rss": "https://it.motor1.com/rss/news/all/",
+        "area": ["Automotive News", "EV & Mobilità Elettrica"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "HDMotori",
+        "url": "https://www.hdmotori.it",
+        "rss": "https://www.hdmotori.it/feed/",
+        "area": ["Automotive News", "EV & Mobilità Elettrica"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "DMove.it",
+        "url": "https://www.dmove.it",
+        "rss": "https://www.dmove.it/feed/",
+        "area": ["EV & Mobilità Elettrica", "Guida Autonoma & ADAS"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Vaielettrico",
+        "url": "https://www.vaielettrico.it",
+        "rss": "https://www.vaielettrico.it/feed/",
+        "area": ["EV & Mobilità Elettrica"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Automoto.it",
+        "url": "https://www.automoto.it",
+        "rss": "https://www.automoto.it/rss.xml",
+        "area": ["Automotive News", "Tecnica Automotive"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "L'Automobile ACI",
+        "url": "https://www.lautomobile.aci.it",
+        "rss": "https://www.lautomobile.aci.it/feed/",
+        "area": ["Automotive News", "Tecnica Automotive"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Wired Italia",
+        "url": "https://www.wired.it",
+        "rss": "https://www.wired.it/feed/rss",
+        "area": ["AI & Machine Learning", "Startup & Venture Capital Tech"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Il Sole 24 Ore",
+        "url": "https://www.ilsole24ore.com",
+        "rss": "https://www.ilsole24ore.com/rss/tecnologie--innovazione.xml",
+        "area": ["AI & Machine Learning", "Startup & Venture Capital Tech"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Il Sole 24 Ore - Motori",
+        "url": "https://www.ilsole24ore.com/motori",
+        "rss": "https://www.ilsole24ore.com/rss/motori.xml",
+        "area": ["Automotive News", "EV & Mobilità Elettrica"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Info Data - Il Sole 24 Ore",
+        "url": "https://infodata.ilsole24ore.com",
+        "rss": "https://infodata.ilsole24ore.com/feed/",
+        "area": ["AI & Machine Learning"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Corriere della Sera",
+        "url": "https://www.corriere.it",
+        "rss": "https://www.corriere.it/rss/tecnologia.xml",
+        "area": ["AI & Machine Learning", "Automotive News"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "La Gazzetta dello Sport - Motori",
+        "url": "https://www.gazzetta.it/motori",
+        "rss": "https://www.gazzetta.it/rss/motori.xml",
+        "area": ["Automotive News"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Hardware Upgrade",
+        "url": "https://www.hwupgrade.it",
+        "rss": "https://www.hwupgrade.it/rss/news.xml",
+        "area": ["AI & Machine Learning"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Corriere delle Comunicazioni",
+        "url": "https://www.corrierecomunicazioni.it",
+        "rss": "https://www.corrierecomunicazioni.it/feed/",
+        "area": ["AI & Machine Learning", "Startup & Venture Capital Tech"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Key4biz",
+        "url": "https://www.key4biz.it",
+        "rss": "https://www.key4biz.it/feed/",
+        "area": ["AI & Machine Learning", "Startup & Venture Capital Tech"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "InsideEVs Italia",
+        "url": "https://it.insideevs.com",
+        "rss": "https://it.insideevs.com/rss/articles/",
+        "area": ["EV & Mobilità Elettrica"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Sky TG24 Motori",
+        "url": "https://tg24.sky.it/motori",
+        "rss": "https://tg24.sky.it/motori/rss.xml",
+        "area": ["Automotive News"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Rinnovabili.it",
+        "url": "https://www.rinnovabili.it",
+        "rss": "https://www.rinnovabili.it/feed/",
+        "area": ["EV & Mobilità Elettrica"],
+        "lingua": "IT",
+        "livello": "top"
+      },
+      {
+        "name": "Motus-E",
+        "url": "https://www.motus-e.org",
+        "rss": "https://www.motus-e.org/feed/",
+        "area": ["EV & Mobilità Elettrica"],
+        "lingua": "IT",
+        "livello": "top"
+      }
+    ]
+  }
+}
