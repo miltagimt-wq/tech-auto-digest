@@ -114,7 +114,7 @@ def fetch_rss_articles(sources):
                             "lingua": source.get("lingua", "EN"),
                             "area_hint": source["area"][0] if source["area"] else "",
                             "title": entry.get("title", ""),
-                            "summary": entry.get("summary", "")[:150],
+                            "summary": entry.get("summary", "")[:100],
                             "url": url,
                             "published": published.strftime("%d/%m %H:%M") if published else "recente"
                         }
