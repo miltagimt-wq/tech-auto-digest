@@ -19,7 +19,7 @@ from groq import Groq
 GROQ_API_KEY   = os.environ["GROQ_API_KEY"]
 RESEND_API_KEY = os.environ["RESEND_API_KEY"]
 FROM_EMAIL     = "onboarding@resend.dev"
-TO_EMAIL       = "miltagimt@gmail.com"
+TO_EMAIL       = "os.environ["TO_EMAIL"]
 TIMEZONE       = "Europe/Rome"
 SOURCES_FILE   = "sources.json"
 
