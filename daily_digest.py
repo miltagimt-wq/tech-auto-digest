@@ -160,6 +160,16 @@ def analyze_with_groq(italian, international):
         if not item.get("emoji"):
             item["emoji"] = AREA_EMOJIS.get(item.get("area", ""), "📰")
 
+    # Rimuovi duplicati per URL
+    seen_urls = set()
+    unique_news = []
+    for item in news:
+        url = item.get("url", "")
+        if url not in seen_urls:
+            seen_urls.add(url)
+            unique_news.append(item)
+    news = unique_news
+
     area_count = {}
     for n in news:
         area_count[n.get("area", "?")] = area_count.get(n.get("area", "?"), 0) + 1
