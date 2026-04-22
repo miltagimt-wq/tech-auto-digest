@@ -103,7 +103,7 @@ def fetch_rss_articles(sources):
         for source in source_list:
             try:
                 feed = feedparser.parse(source["rss"])
-                for entry in feed.entries[:3]:
+                for entry in feed.entries[:2]:
                     url = entry.get("link", "")
                     published = None
                     if hasattr(entry, "published_parsed") and entry.published_parsed:
