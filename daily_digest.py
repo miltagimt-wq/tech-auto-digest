@@ -22,6 +22,7 @@ FROM_EMAIL     = "onboarding@resend.dev"
 TO_EMAIL       = os.environ["TO_EMAIL"]
 TIMEZONE       = "Europe/Rome"
 SOURCES_FILE   = "sources.json"
+SENT_URLS_FILE = "sent_urls.json"   # ← file di memoria articoli già inviati
 
 ANALYSIS_PROMPT = """Sei un editor specializzato in tecnologia e automotive che cura una newsletter per un pubblico prevalentemente italiano (75% contatti italiani).
 
@@ -94,10 +95,45 @@ def load_sources():
     return data["sources"]
 
 
-def fetch_rss_articles(sources):
+# ─────────────────────────────────────────────
+# MEMORIA ARTICOLI GIÀ INVIATI
+# ─────────────────────────────────────────────
+
+def load_sent_urls():
+    """Carica la lista degli URL già inviati negli ultimi 7 giorni."""
+    if os.path.exists(SENT_URLS_FILE):
+        with open(SENT_URLS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        # Tieni solo gli URL degli ultimi 7 giorni
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+        filtered = {url: date for url, date in data.items() if date >= cutoff}
+        print(f"  🧠 Memoria: {len(filtered)} URL già inviati negli ultimi 7 giorni")
+        return filtered
+    print("  🧠 Memoria: nessun file trovato, parto da zero")
+    return {}
+
+
+def save_sent_urls(sent_urls, new_urls):
+    """Aggiunge i nuovi URL alla memoria e salva il file."""
+    today = datetime.now(timezone.utc).isoformat()
+    for url in new_urls:
+        if url:
+            sent_urls[url] = today
+    with open(SENT_URLS_FILE, "w", encoding="utf-8") as f:
+        json.dump(sent_urls, f, indent=2, ensure_ascii=False)
+    print(f"  💾 Memoria aggiornata: {len(sent_urls)} URL totali salvati")
+
+
+# ─────────────────────────────────────────────
+# FETCH RSS
+# ─────────────────────────────────────────────
+
+def fetch_rss_articles(sources, sent_urls):
+    """Scarica gli articoli RSS escludendo quelli già inviati."""
     italian = []
     international = []
     cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+    skipped = 0
 
     for category, source_list in sources.items():
         for source in source_list:
@@ -105,6 +141,12 @@ def fetch_rss_articles(sources):
                 feed = feedparser.parse(source["rss"])
                 for entry in feed.entries[:2]:
                     url = entry.get("link", "")
+
+                    # ← FILTRO MEMORIA: salta gli articoli già inviati
+                    if url and url in sent_urls:
+                        skipped += 1
+                        continue
+
                     published = None
                     if hasattr(entry, "published_parsed") and entry.published_parsed:
                         published = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
@@ -125,7 +167,7 @@ def fetch_rss_articles(sources):
             except Exception as e:
                 print(f"  ⚠️  Errore RSS {source['name']}: {e}")
 
-    print(f"  📥 Articoli IT: {len(italian)} | Internazionali: {len(international)}")
+    print(f"  📥 Articoli IT: {len(italian)} | Internazionali: {len(international)} | Saltati (già inviati): {skipped}")
     return italian, international
 
 
@@ -160,7 +202,7 @@ def analyze_with_groq(italian, international):
         if not item.get("emoji"):
             item["emoji"] = AREA_EMOJIS.get(item.get("area", ""), "📰")
 
-    # Rimuovi duplicati per URL
+    # Rimuovi duplicati per URL all'interno della stessa sessione
     seen_urls = set()
     unique_news = []
     for item in news:
@@ -275,9 +317,12 @@ def main():
     print(f"  {datetime.now(tz).strftime('%d/%m/%Y %H:%M')} — Europe/Rome")
     print("=" * 50)
 
+    # Carica memoria articoli già inviati
+    sent_urls = load_sent_urls()
+
     print("\n[1/3] Lettura feed RSS...")
     sources = load_sources()
-    italian, international = fetch_rss_articles(sources)
+    italian, international = fetch_rss_articles(sources, sent_urls)
 
     print("\n[2/3] Analisi con Groq AI...")
     news = analyze_with_groq(italian, international)
@@ -285,6 +330,10 @@ def main():
     print("\n[3/3] Invio email...")
     html = build_email_html(news)
     send_email(html, len(news))
+
+    # Salva gli URL inviati oggi nella memoria
+    new_urls = [item["url"] for item in news]
+    save_sent_urls(sent_urls, new_urls)
 
     print("\n" + "=" * 50)
     print("  ✅ Tutto completato con successo!")
