@@ -1,14 +1,15 @@
 name: Tech Auto Daily Digest
-
 on:
   repository_dispatch:
     types: [run-digest]
   workflow_dispatch:      # permette di lanciarlo manualmente da GitHub
 
+permissions:
+  contents: write         # necessario per committare sent_urls.json
+
 jobs:
   send-digest:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,3 +28,11 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
         run: python daily_digest.py
+
+      - name: Salva memoria URL inviati
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sent_urls.json
+          git diff --cached --quiet || git commit -m "chore: aggiorna sent_urls.json [skip ci]"
+          git push
