@@ -1,8 +1,8 @@
 name: Tech Auto Daily Digest
 
 on:
-  schedule:
-    - cron: '0 3 * * *'  # ogni giorno alle 03:00 UTC = 05:00 ora di Roma (CET) / 08:00 CEST
+  repository_dispatch:
+    types: [run-digest]
   workflow_dispatch:      # permette di lanciarlo manualmente da GitHub
 
 jobs:
