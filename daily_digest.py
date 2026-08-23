@@ -180,52 +180,47 @@ def analyze_with_groq(italian, international):
             text += f"{i}. [{a['source']}] {a['title']}\n   Area suggerita: {a['area_hint']}\n   Sintesi: {a['summary']}\n   URL: {a['url']}\n   Data: {a['published']}\n"
         return text
 
-articles_text = format_list(italian, "ARTICOLI ITALIANI") + format_list(international, "ARTICOLI INTERNAZIONALI")
+    articles_text = format_list(italian, "ARTICOLI ITALIANI") + format_list(international, "ARTICOLI INTERNAZIONALI")
 
-print("  🤖 Groq sta analizzando gli articoli...")
+    print("  🤖 Groq sta analizzando gli articoli...")
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": "Sei un editor specializzato in tecnologia e automotive. Rispondi SOLO con JSON valido, nessun testo aggiuntivo."},
+            {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
+        ],
+        temperature=0.3,
+        max_tokens=4000
+    )
 
-response = client.chat.completions.create(
-    model="openai/gpt-oss-120b",
-    messages=[
-        {"role": "system", "content": "Sei un editor specializzato in tecnologia e automotive. Rispondi SOLO con JSON valido, nessun testo aggiuntivo."},
-        {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
-    ],
-    temperature=0.3,
-    max_tokens=4000,
-    response_format={"type": "json_object"}
-)
+    raw = response.choices[0].message.content.strip()
+    clean = re.sub(r"```json|```", "", raw).strip()
+    data = json.loads(clean)
+    news = data.get("news", [])
 
-raw = response.choices[0].message.content.strip()
-start = raw.find("{")
-end = raw.rfind("}") + 1
-if start != -1 and end != 0:
-    clean = raw[start:end]
-else:
-    clean = raw
+    for item in news:
+        if not item.get("emoji"):
+            item["emoji"] = AREA_EMOJIS.get(item.get("area", ""), "📰")
 
-data = json.loads(clean)
-news = data.get("news", [])
+    # Rimuovi duplicati per URL all'interno della stessa sessione
+    seen_urls = set()
+    unique_news = []
+    for item in news:
+        url = item.get("url", "")
+        if url not in seen_urls:
+            seen_urls.add(url)
+            unique_news.append(item)
+    news = unique_news
 
-unique_news = []
-for item in news:
-    if not item.get("emoji"):
-        item["emoji"] = "📰"
-        
-    url = item.get("url", "")
-    if url and url not in seen_urls:
-        unique_news.append(item)
-            
-news = unique_news
-
-area_count = {}
-for n in news:
-    area_count[n.get("area", "?")] = area_count.get(n.get("area", "?"), 0) + 1
-it_sources = [s["source"] for s in italian]
-it_count = sum(1 for n in news if n["source"] in it_sources)
-print(f"  ✅ Notizie selezionate: {len(news)} (italiane: {it_count})")
-for area, count in sorted(area_count.items()):
-    print(f"     {AREA_EMOJIS.get(area,'📰')} {area}: {count}")
-return news
+    area_count = {}
+    for n in news:
+        area_count[n.get("area", "?")] = area_count.get(n.get("area", "?"), 0) + 1
+    it_sources = [s["source"] for s in italian]
+    it_count = sum(1 for n in news if n["source"] in it_sources)
+    print(f"  ✅ Notizie selezionate: {len(news)} (italiane: {it_count})")
+    for area, count in sorted(area_count.items()):
+        print(f"     {AREA_EMOJIS.get(area,'📰')} {area}: {count}")
+    return news
 
 
 def score_to_color(score):
