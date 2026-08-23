@@ -180,7 +180,7 @@ def analyze_with_groq(italian, international):
             text += f"{i}. [{a['source']}] {a['title']}\n   Area suggerita: {a['area_hint']}\n   Sintesi: {a['summary']}\n   URL: {a['url']}\n   Data: {a['published']}\n"
         return text
 
-    articles_text = format_list(italian, "ARTICOLI ITALIANI") + format_list(international, "ARTICOLI INTERNAZIONALI")
+articles_text = format_list(italian, "ARTICOLI ITALIANI") + format_list(international, "ARTICOLI INTERNAZIONALI")
 
 print("  🤖 Groq sta analizzando gli articoli...")
 
@@ -192,7 +192,10 @@ response = client.chat.completions.create(
     ],
     temperature=0.3,
     max_tokens=4000,
-    raw = response.choices[0].message.content.strip()
+    response_format={"type": "json_object"}
+)
+
+raw = response.choices[0].message.content.strip()
 start = raw.find("{")
 end = raw.rfind("}") + 1
 if start != -1 and end != 0:
@@ -205,8 +208,7 @@ news = data.get("news", [])
 
 for item in news:
     if not item.get("emoji"):
-        item["emoji"] = "📰"url = item.get("url", "")
-if url not in seen_urls:
+        item["emoji"] = "📰"if url not in seen_urls:
 seen_urls.add(url)
 unique_news.append(item)
     news = unique_news
