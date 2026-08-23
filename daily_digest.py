@@ -208,24 +208,24 @@ news = data.get("news", [])
 
 unique_news = []
 for item in news:
-        if not item.get("emoji"):
-            item["emoji"] = "📰"
+    if not item.get("emoji"):
+        item["emoji"] = "📰"
         
-        url = item.get("url", "")
-        if url and url not in seen_urls:
-            unique_news.append(item)
+    url = item.get("url", "")
+    if url and url not in seen_urls:
+        unique_news.append(item)
             
 news = unique_news
 
-    area_count = {}
-    for n in news:
-        area_count[n.get("area", "?")] = area_count.get(n.get("area", "?"), 0) + 1
-    it_sources = [s["source"] for s in italian]
-    it_count = sum(1 for n in news if n["source"] in it_sources)
-    print(f"  ✅ Notizie selezionate: {len(news)} (italiane: {it_count})")
-    for area, count in sorted(area_count.items()):
-        print(f"     {AREA_EMOJIS.get(area,'📰')} {area}: {count}")
-    return news
+area_count = {}
+for n in news:
+    area_count[n.get("area", "?")] = area_count.get(n.get("area", "?"), 0) + 1
+it_sources = [s["source"] for s in italian]
+it_count = sum(1 for n in news if n["source"] in it_sources)
+print(f"  ✅ Notizie selezionate: {len(news)} (italiane: {it_count})")
+for area, count in sorted(area_count.items()):
+    print(f"     {AREA_EMOJIS.get(area,'📰')} {area}: {count}")
+return news
 
 
 def score_to_color(score):
