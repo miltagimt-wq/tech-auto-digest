@@ -184,7 +184,7 @@ def analyze_with_groq(italian, international):
 
     print("  🤖 Groq sta analizzando gli articoli...")
     response = client.chat.completions.create(
-        model="llama-3.3-70b-specdec",
+        model="openai/gpt-oss-120b",
         messages=[
             {"role": "system", "content": "Sei un editor specializzato in tecnologia e automotive. Rispondi SOLO con JSON valido, nessun testo aggiuntivo."},
             {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
@@ -192,10 +192,25 @@ def analyze_with_groq(italian, international):
         temperature=0.3,
         max_tokens=4000
     )
-
+response = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {"role": "system", "content": "Sei un editor specializzato in tecnologia e automotive. Rispondi SOLO con JSON valido, nessun testo aggiuntivo."},
+            {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
+        ],
+        temperature=0.3,
+        max_tokens=4000,
+        response_format={"type": "json_object"}
+    )
     raw = response.choices[0].message.content.strip()
-    clean = re.sub(r"```json|```", "", raw).strip()
-    data = json.loads(clean)
+# Estrae chirurgicamente solo il testo contenuto tra la prima { e l'ultima }
+start = raw.find("{")
+end = raw.rfind("}") + 1
+if start != -1 and end != 0:
+    clean = raw[start:end]
+else:
+    clean = raw
+data = json.loads(clean)
     news = data.get("news", [])
 
     for item in news:
