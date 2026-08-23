@@ -184,7 +184,7 @@ def analyze_with_groq(italian, international):
 
     print("  🤖 Groq sta analizzando gli articoli...")
     response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         messages=[
             {"role": "system", "content": "Sei un editor specializzato in tecnologia e automotive. Rispondi SOLO con JSON valido, nessun testo aggiuntivo."},
             {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
