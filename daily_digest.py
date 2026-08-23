@@ -207,7 +207,7 @@ data = json.loads(clean)
 news = data.get("news", [])
 
 unique_news = []
-    for item in news:
+for item in news:
         if not item.get("emoji"):
             item["emoji"] = "📰"
         
