@@ -203,20 +203,20 @@ if start != -1 and end != 0:
 else:
     clean = raw
 data = json.loads(clean)
-    news = data.get("news", [])
+news = data.get("news", [])
 
-    for item in news:
-        if not item.get("emoji"):
-            item["emoji"] = AREA_EMOJIS.get(item.get("area", ""), "📰")
+for item in news:
+if not item.get("emoji"):
+item["emoji"] = AREA_EMOJIS.get(item.get("area", ""), "📰")
 
-    # Rimuovi duplicati per URL all'interno della stessa sessione
-    seen_urls = set()
-    unique_news = []
-    for item in news:
-        url = item.get("url", "")
-        if url not in seen_urls:
-            seen_urls.add(url)
-            unique_news.append(item)
+# Rimuovi duplicati per URL all'interno della stessa sessione
+seen_urls = set()
+unique_news = []
+for item in news:
+url = item.get("url", "")
+if url not in seen_urls:
+seen_urls.add(url)
+unique_news.append(item)
     news = unique_news
 
     area_count = {}
