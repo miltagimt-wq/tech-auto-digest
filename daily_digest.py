@@ -192,28 +192,20 @@ response = client.chat.completions.create(
     ],
     temperature=0.3,
     max_tokens=4000,
-    response_format={"type": "json_object"}
-)
-
-raw = response.choices[0].message.content.strip()
+    raw = response.choices[0].message.content.strip()
 start = raw.find("{")
 end = raw.rfind("}") + 1
 if start != -1 and end != 0:
     clean = raw[start:end]
 else:
     clean = raw
+
 data = json.loads(clean)
 news = data.get("news", [])
 
 for item in news:
-if not item.get("emoji"):
-item["emoji"] = AREA_EMOJIS.get(item.get("area", ""), "📰")
-
-# Rimuovi duplicati per URL all'interno della stessa sessione
-seen_urls = set()
-unique_news = []
-for item in news:
-url = item.get("url", "")
+    if not item.get("emoji"):
+        item["emoji"] = "📰"url = item.get("url", "")
 if url not in seen_urls:
 seen_urls.add(url)
 unique_news.append(item)
