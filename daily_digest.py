@@ -190,8 +190,7 @@ def analyze_with_groq(italian, international):
             {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
         ],
         temperature=0.3,
-        max_tokens=4000,
-        response_format={"type": "json_object"}
+        max_tokens=4000
     )
 
     raw = response.choices[0].message.content.strip()
