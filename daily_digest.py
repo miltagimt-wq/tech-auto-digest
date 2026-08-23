@@ -186,7 +186,7 @@ def analyze_with_groq(italian, international):
     response = client.chat.completions.create(
         model="openai/gpt-oss-120b",
         messages=[
-            {"role": "system", "content": "Sei un editor specializzato in tecnologia e automotive. Rispondi SOLO con JSON valido, nessun testo aggiuntivo."},
+            {"role": "system", "content": "Sei un editor specializzato in tecnologia e automotive. Rispondi esclusivamente in formato JSON valido, senza altro testo."},
             {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
         ],
         temperature=0.3,
