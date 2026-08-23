@@ -195,10 +195,7 @@ def analyze_with_groq(italian, international):
 
 raw = response.choices[0].message.content.strip()
     match = re.search(r"\{.*\}", raw, re.DOTALL)
-    if match:
-        clean = match.group(0)
-    else:
-        clean = raw
+    clean = match.group(0) if match else raw
     data = json.loads(clean)
     news = data.get("news", [])
 
