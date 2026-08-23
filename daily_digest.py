@@ -208,7 +208,8 @@ news = data.get("news", [])
 
 for item in news:
     if not item.get("emoji"):
-        item["emoji"] = "📰"if url not in seen_urls:
+item["emoji"] = "📰"
+if url not in seen_urls:
 seen_urls.add(url)
 unique_news.append(item)
     news = unique_news
