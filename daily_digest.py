@@ -215,7 +215,7 @@ for item in news:
         if url and url not in seen_urls:
             unique_news.append(item)
             
-    news = unique_news
+news = unique_news
 
     area_count = {}
     for n in news:
