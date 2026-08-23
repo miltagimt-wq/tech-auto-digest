@@ -190,11 +190,14 @@ def analyze_with_groq(italian, international):
             {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
         ],
         temperature=0.3,
-        max_tokens=4000
+        max_tokens=4000,
+        response_format={"type": "json_object"}
     )
 
     raw = response.choices[0].message.content.strip()
-    clean = re.sub(r"```json|```", "", raw).strip()
+    start = raw.find("{")
+    end = raw.rfind("}") + 1
+    clean = raw[start:end] if (start != -1 and end != 0) else raw
     data = json.loads(clean)
     news = data.get("news", [])
 
