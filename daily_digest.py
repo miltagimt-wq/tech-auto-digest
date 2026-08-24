@@ -190,10 +190,16 @@ def analyze_with_groq(italian, international):
             {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
         ],
         temperature=0.3,
-        max_tokens=3000
+        max_tokens=3000,
+        reasoning_effort="low",
+        response_format={"type": "json_object"}
     )
 
-    raw = response.choices[0].message.content.strip()
+    raw = (response.choices[0].message.content or "").strip()
+    if not raw:
+        print("Risposta vuota. Motivo:", response.choices[0].finish_reason)
+        raise SystemExit(1)
+
     clean = re.sub(r"```json|```", "", raw).strip()
     match = re.search(r"\{.*\}", clean, re.DOTALL)
     if match:
