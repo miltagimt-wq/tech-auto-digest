@@ -156,7 +156,7 @@ def fetch_rss_articles(sources, sent_urls):
                             "lingua": source.get("lingua", "EN"),
                             "area_hint": source["area"][0] if source["area"] else "",
                             "title": entry.get("title", ""),
-                            "summary": entry.get("summary", "")[:100],
+                            "summary": entry.get("summary", "")[:80],
                             "url": url,
                             "published": published.strftime("%d/%m %H:%M") if published else "recente"
                         }
@@ -190,7 +190,7 @@ def analyze_with_groq(italian, international):
             {"role": "user", "content": ANALYSIS_PROMPT + "\n\nArticoli da analizzare:" + articles_text}
         ],
         temperature=0.3,
-        max_tokens=4000
+        max_tokens=3000
     )
 
     raw = response.choices[0].message.content.strip()
