@@ -193,9 +193,11 @@ def analyze_with_groq(italian, international):
         max_tokens=4000
     )
 
-raw = response.choices[0].message.content.strip()
-    match = re.search(r"\{.*\}", raw, re.DOTALL)
-    clean = match.group(0) if match else raw
+    raw = response.choices[0].message.content.strip()
+    clean = re.sub(r"```json|```", "", raw).strip()
+    match = re.search(r"\{.*\}", clean, re.DOTALL)
+    if match:
+        clean = match.group(0)
     data = json.loads(clean)
     news = data.get("news", [])
 
